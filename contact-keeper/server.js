@@ -1,8 +1,10 @@
 const express = require('express');
-//Server
+const connectDB = require('./config/db');
+// 1. Server
 const app = express();
 const PORT = process.env.PORT || 5500;
-
+// 2. DB
+connectDB();
 
 // Root 
 app.get('/' , (req , res) => res.send({
