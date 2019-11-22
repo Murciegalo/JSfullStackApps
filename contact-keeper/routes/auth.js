@@ -9,8 +9,8 @@ router.get( '/' , ( req , res ) => {
 
 // @route   Auth User & get token
 // public access
-router.post('/' , ( res , req ) => {
+router.post( '/' , ( req , res ) => {
   res.send('Log in user');
-})
+});
 
 module.exports = router;
