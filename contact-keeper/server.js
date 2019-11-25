@@ -2,11 +2,13 @@ const express = require('express');
 const connectDB = require('./config/db');
 // 1. Server
 const app = express();
-const PORT = process.env.PORT || 5500;
+// Middleware
+app.use(express.json());
+const PORT = process.env.PORT || 5000;
 // 2. DB
 connectDB();
 
-// Root 
+// homepage 
 app.get('/' , (req , res) => res.send({
   msg: 'Welcome to encrypted and secret contacts storage'
 }));
