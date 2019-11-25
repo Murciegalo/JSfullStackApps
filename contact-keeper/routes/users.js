@@ -10,7 +10,7 @@ const User = require('../models/User');
 
 
 // @route     POST api/users 
-// public access
+// public access    Register Users
 router.post( 
   '/' , 
   [ 
@@ -47,7 +47,8 @@ router.post(
       const salt =  await bcrypt.genSalt(10);
       user.password = await bcrypt.hash( password , salt );
       await user.save();
-
+      
+      //Tokenize
       jwt.sign(
         {
           user: {
