@@ -9,7 +9,11 @@ import {
 } from '../actions/types';
 
 const initState = {
-  contacts: [] ,
+  contactsList: [
+    { id: 1 , name: 'Stuart' , surname: 'CaraOso' },
+    { id: 2 , name: 'Tomate' , surname: 'CaraOso' },
+    { id: 3 , name: 'Caliente' , surname: 'CaraOso' }
+  ] ,
   alert: false
 }
 

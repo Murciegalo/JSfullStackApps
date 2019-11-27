@@ -14,17 +14,17 @@ import { Provider } from 'react-redux';
 
 const App = () => {
   return (
-    <>
-      <Provider store={store}>
+    <Provider store={store}>
+      <>
         <Nav />
         <div className="container">
           <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/about" component={About} />
+            <Route exact path="/" render={ () => <Home /> } />
+            <Route exact path="/about" render={ () => <About /> } />
           </Switch>
         </div>
-      </Provider>
-    </>
+      </>
+    </Provider>
   );
 }
 

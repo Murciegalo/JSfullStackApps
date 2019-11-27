@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { FaIdCard } from 'react-icons/fa';
+
 
 const Navbar = ({ title , icon}) => {
   return (
     <nav className="navbar bg-primary">
       <h1>
-        <i className={icon}/> {title}
+        {icon} {title}
       </h1>
       <ul>
         <li>
@@ -23,12 +25,12 @@ const Navbar = ({ title , icon}) => {
 
 Navbar.propTypes = {
   title: PropTypes.string.isRequired ,
-  icon: PropTypes.string ,
+  icon: PropTypes.object.isRequired, 
 }
 
 Navbar.defaultProps = {
   title: 'Cloud Contacts Storage' ,
-  icon: 'fas fa-id-card-alt'
+  icon: <FaIdCard />
 } 
 
 
