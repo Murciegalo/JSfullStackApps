@@ -7,18 +7,23 @@ import Home from './components/pages/Home';
 import About from './components/pages/About';
 //Styles
 import './App.css';
+//redux
+import store from './store';
+import { Provider } from 'react-redux';
 
 
 const App = () => {
   return (
     <>
-      <Nav />
-      <div className="container">
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/about" component={About} />
-        </Switch>
-      </div>
+      <Provider store={store}>
+        <Nav />
+        <div className="container">
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/about" component={About} />
+          </Switch>
+        </div>
+      </Provider>
     </>
   );
 }
