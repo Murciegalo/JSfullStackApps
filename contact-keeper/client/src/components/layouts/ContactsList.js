@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 //comp.
 import  ContactItem  from './ContactItem';
+//transtit.
+import { CSSTransition , TransitionGroup } from 'react-transition-group';
 
 const ContactsList = ({ list: { contactsList , filtered }}) => {
   
@@ -12,12 +14,20 @@ const ContactsList = ({ list: { contactsList , filtered }}) => {
   }
   return (
     <>
+    <TransitionGroup>
     {
     filtered !== null ?
-      filtered.map(el => ( <ContactItem key={el.id} data={el}/> ))
+      filtered.map(el => (
+        <CSSTransition key={el.id} className="item" timeout={600}> 
+          <ContactItem data={el}/> 
+        </CSSTransition> ))
       : 
-      contactsList.map( el => ( <ContactItem key={el.id} data={el}/> ))
+      contactsList.map( el => (
+        <CSSTransition key={el.id} className="item" timeout={600}> 
+          <ContactItem data={el}/> 
+        </CSSTransition> ))
     }
+    </TransitionGroup> 
     </>
   )
 }
