@@ -1,9 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+//redux
+import { connect } from 'react-redux';
+import { deleteContact , setCurrent , clearCurrent} from '../../actions/contactsActions';
 
 
-export const ContactItem = ({data}) => {
+const ContactItem = ({ data , deleteContact , setCurrent , clearCurrent}) => {
   const { id , name , email , phone , type } = data;
+
+  const onDelete = () => {
+    deleteContact(id);
+    clearCurrent()
+  }
+
   return (
     <div className="card bg-ligth">
       <h3 className="text-primary text-left">
@@ -14,12 +23,12 @@ export const ContactItem = ({data}) => {
         </span> 
       </h3>
       <ul className="list">
-        <li></li>
-        <li></li>
+        <li>{email && email}</li>
+        <li>{phone && phone}</li>
       </ul>
       <p>
-        <button className="btn btn-dark brn-sm">Edit</button>
-        <button className="btn btn-danger brn-sm">Delete</button>
+        <button className="btn btn-dark brn-sm" onClick={() => setCurrent(data)}>Edit</button>
+        <button className="btn btn-danger brn-sm" onClick={onDelete}>Delete</button>
       </p>
     </div>
   )
@@ -28,3 +37,8 @@ export const ContactItem = ({data}) => {
 ContactItem.propTypes={
   data: PropTypes.object.isRequired,
 }
+
+export default connect(
+  null,
+  { deleteContact , setCurrent , clearCurrent}
+)(ContactItem);

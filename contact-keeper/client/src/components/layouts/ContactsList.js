@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 //redux
 import { connect } from 'react-redux';
 //comp.
-import { ContactItem as Item } from './ContactItem';
+import  ContactItem  from './ContactItem';
 
 const ContactsList = ({ list: { contactsList }}) => {
   return (
     <>
     {
-      contactsList.map( el => ( <Item key={el.id} data={el}/> ))
+      contactsList.map( el => ( <ContactItem key={el.id} data={el}/> ))
     }
     </>
   )
