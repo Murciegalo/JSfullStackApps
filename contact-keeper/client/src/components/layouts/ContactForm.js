@@ -23,7 +23,7 @@ const ContactForm = ({addContact , current , clearCurrent , updateContact}) => {
       });
     }
   }, 
-  [current])
+  [current]);
   
   const [ contact , setContact ] = useState({
     name: '' ,

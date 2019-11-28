@@ -43,3 +43,16 @@ export const updateContact = (curr) => {
     payload: curr
   }
 }
+
+export const filterContacts = (txt) => {
+  return {
+    type: FILTER_CONTACTS ,
+    payload: txt
+  }
+}
+
+export const clearFilter = () => {
+  return {
+    type: CLEAR_FILTER 
+  }
+}
