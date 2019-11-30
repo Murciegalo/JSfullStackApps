@@ -7,7 +7,7 @@ const Login = props => {
     password: '' ,
     password2: ''
   });
-  const { email , password , password2 } = user;
+  const { email , password } = user;
 
   const handleChange = e => {
     setUser({
