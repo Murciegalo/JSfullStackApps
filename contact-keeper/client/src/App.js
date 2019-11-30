@@ -5,11 +5,14 @@ import { Switch , Route } from 'react-router-dom';
 import Nav from './components/layouts/Navbar';
 import Home from './components/pages/Home';
 import About from './components/pages/About';
+import Register from './components/Auth/Register';
+import Login from './components/Auth/Login';
 //Styles
 import './App.css';
 //redux
 import store from './store';
 import { Provider } from 'react-redux';
+
 
 
 const App = () => {
@@ -21,6 +24,9 @@ const App = () => {
           <Switch>
             <Route exact path="/" render={ () => <Home /> } />
             <Route exact path="/about" render={ () => <About /> } />
+            <Route exact path="/register" render={() => <Register /> }/>
+            <Route exact path="/login" render={() => <Login /> }/>
+            <Route component={Login}/>  
           </Switch>
         </div>
       </>

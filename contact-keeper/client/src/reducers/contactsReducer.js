@@ -65,6 +65,7 @@ export default ( state=initState , action) => {
         ...state,
         filtered: null
       }
+    //SERVER BACKEND
     default:
       return state;
   }

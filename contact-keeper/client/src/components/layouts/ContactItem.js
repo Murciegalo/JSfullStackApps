@@ -27,8 +27,8 @@ const ContactItem = ({ data , deleteContact , setCurrent , clearCurrent}) => {
         <li>{phone && phone}</li>
       </ul>
       <p>
-        <button className="btn btn-dark brn-sm" onClick={() => setCurrent(data)}>Edit</button>
-        <button className="btn btn-danger brn-sm" onClick={onDelete}>Delete</button>
+        <button className="btn btn-ligth brn-sm" onClick={() => setCurrent(data)}>Edit</button>
+        <button className="btn btn-dark brn-sm" onClick={onDelete}>Delete</button>
       </p>
     </div>
   )

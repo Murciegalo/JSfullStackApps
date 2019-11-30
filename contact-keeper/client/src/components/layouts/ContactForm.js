@@ -75,11 +75,11 @@ const ContactForm = ({addContact , current , clearCurrent , updateContact}) => {
         checked={type === 'professional'}onChange={handleChange}
       />
         Professional
-      <button type="submit" className="btn btn-primary btn-block">
+      <button type="submit" className="btn btn-light btn-block">
         {current ? 'Edit Contact' : 'Add Contact'}
       </button>
       {current && (
-          <button type="submit" className="btn btn-light btn-block" onClick={clearAll}>
+          <button type="submit" className="btn btn-success btn-block" onClick={clearAll}>
             Clear All
           </button>
       )}
