@@ -5,7 +5,9 @@ import {
   CLEAR_CONTACT,
   UPDATE_CONTACT,
   FILTER_CONTACTS,
-  CLEAR_FILTER
+  CLEAR_FILTER,
+  SET_ALERT ,
+  REMOVE_ALERT
 } from '../actions/types';
 
 const initState = {
@@ -16,7 +18,7 @@ const initState = {
   ] ,
   current: null ,
   filtered: null ,
-  alert: false
+  alerts: []
 }
 
 export default ( state=initState , action) => {
@@ -57,7 +59,7 @@ export default ( state=initState , action) => {
         ...state,
         filtered: state.contactsList.filter(el => {
           const regExp = new RegExp(`${action.payload}` , 'gi');
-          return el.name.match(regExp); //|| el.email.match(regExp);
+          return el.name.match(regExp);
         })
       }
     case CLEAR_FILTER:
@@ -65,7 +67,16 @@ export default ( state=initState , action) => {
         ...state,
         filtered: null
       }
-    //SERVER BACKEND
+    case SET_ALERT:
+      return {
+        ...state ,
+        alerts: [ ...state.alerts , action.payload ]
+      }
+    case REMOVE_ALERT:
+      return {
+        ...state ,
+        alerts: state.alerts.filter( el => el.id !== action.payload )
+      }
     default:
       return state;
   }
