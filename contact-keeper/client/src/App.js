@@ -7,6 +7,8 @@ import Home from './components/pages/Home';
 import About from './components/pages/About';
 import Register from './components/Auth/Register';
 import Login from './components/Auth/Login';
+import Alerts from './components/layouts/Alerts';
+
 //Styles
 import './App.css';
 //redux
@@ -21,6 +23,7 @@ const App = () => {
       <>
         <Nav />
         <div className="container">
+          <Alerts />
           <Switch>
             <Route exact path="/" render={ () => <Home /> } />
             <Route exact path="/about" render={ () => <About /> } />
