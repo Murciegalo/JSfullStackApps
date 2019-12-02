@@ -1,5 +1,4 @@
 import React , { useState } from 'react';
-import PropTypes from 'prop-types';
 import uuid from 'uuid';
 //Redux
 import { useDispatch } from "react-redux";
@@ -28,15 +27,8 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     let msg ,id;
-    // // let id = uuid.v4();
+    // // required added in all Inputs
     // if( name === '' || email === '' || password === ''){
-    //   id = uuid.v4();
-    //   msg = 'Please complete all fields';
-    //   dispatch({
-    //     type: SET_ALERT,
-    //     payload: { id , SET_ALERT , msg , tipo: 'danger'}
-    //   });
-    // }
     if( password !== password2 ){
       id = uuid.v4();
       msg = 'Passwords don\'t match';
@@ -44,8 +36,16 @@ const Register = () => {
         type: SET_ALERT,
         payload: { id , SET_ALERT , msg , tipo: 'danger'}
       })
+      setTimeout( () => dispatch({ type: REMOVE_ALERT , payload: id}), 3000);
     }
-    setTimeout( () => dispatch({ type: REMOVE_ALERT , payload: id}), 3000);
+    else{
+      try {
+        
+      } 
+      catch (error) {
+        
+      }
+    }
   }
   return (
     <>
@@ -99,10 +99,6 @@ const Register = () => {
     </div>
     </>
   )
-}
-
-Register.propTypes = {
-
 }
 
 export default Register;
