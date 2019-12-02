@@ -1,9 +1,9 @@
 import React , { useState } from 'react';
-import PropTypes from 'prop-types';
 import uuid from 'uuid';
+import axios from 'axios';
 //Redux
-import { useDispatch } from "react-redux";
-import { SET_ALERT , REMOVE_ALERT } from '../../actions/types';
+import { useDispatch , useSelector } from "react-redux";
+import { SET_ALERT , REMOVE_ALERT, REGISTER_SUCCESS, REGISTER_FAIL } from '../../actions/types';
 
 
 const Register = () => {
@@ -16,7 +16,7 @@ const Register = () => {
   const { name , email , password , password2 } = user;
 
   const dispatch = useDispatch();
-  
+  const msg = useSelector(state => state.db.error);
   //On Change
   const handleChange = e => {
     setUser({
@@ -25,27 +25,46 @@ const Register = () => {
     });
   }
   //ON Submit
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    let msg ,id;
-    // // let id = uuid.v4();
-    // if( name === '' || email === '' || password === ''){
-    //   id = uuid.v4();
-    //   msg = 'Please complete all fields';
-    //   dispatch({
-    //     type: SET_ALERT,
-    //     payload: { id , SET_ALERT , msg , tipo: 'danger'}
-    //   });
-    // }
+    let id;
+    //UI
     if( password !== password2 ){
       id = uuid.v4();
-      msg = 'Passwords don\'t match';
+      let msg = 'Passwords don\'t match';
       dispatch({
         type: SET_ALERT,
         payload: { id , SET_ALERT , msg , tipo: 'danger'}
       })
+      setTimeout( () => dispatch({ type: REMOVE_ALERT , payload: id}), 3000);
     }
-    setTimeout( () => dispatch({ type: REMOVE_ALERT , payload: id}), 3000);
+    else{
+      //BackEND
+      try {
+        const config = {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+        const res = await axios.post( 'http://localhost:5000/api/users' , {name , email , password} , config )
+        dispatch({
+          type: REGISTER_SUCCESS ,
+          payload: res.data
+        });
+      } 
+      catch (error) {
+        dispatch({
+          type: REGISTER_FAIL ,
+          payload: error.response.data.msg
+        })
+        id = uuid.v4();
+        dispatch({
+          type: SET_ALERT,
+          payload: { id , SET_ALERT , msg , tipo: 'danger'}
+        })
+        setTimeout( () => dispatch({ type: REMOVE_ALERT , payload: id}), 2500);
+      }
+    }
   }
   return (
     <>
@@ -99,10 +118,6 @@ const Register = () => {
     </div>
     </>
   )
-}
-
-Register.propTypes = {
-
 }
 
 export default Register;

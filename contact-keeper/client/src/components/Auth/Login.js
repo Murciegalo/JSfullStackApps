@@ -3,7 +3,6 @@ import uuid from 'uuid';
 //Redux
 import { useDispatch } from "react-redux";
 import { SET_ALERT , REMOVE_ALERT } from '../../actions/types';
-import Alerts from '../layouts/Alerts';
 
 const Login = props => {
   const [ user , setUser ] = useState({
