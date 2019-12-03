@@ -2,9 +2,9 @@ import React , { useState , useEffect } from 'react';
 //Redux
 import { connect } from 'react-redux';
 import { setAlert } from '../../actions/contactsActions';
-import { register , clearErrors } from '../../actions/dbActions';
+import { register , clearErrors  } from '../../actions/dbActions';
 
-const Register = ({db , setAlert , register , clearErrors , history }) => {
+const Register = ({db , setAlert , register  , clearErrors , history }) => {
   const [ user , setUser ] = useState({
     name: '' ,
     email: '' ,
@@ -41,8 +41,11 @@ const Register = ({db , setAlert , register , clearErrors , history }) => {
       setAlert(error);
     }
     else{
-    //BackEND
+    //To register user
       register({ name , email , password });
+    
+    //To check token and login/not the user
+    
     }
   }
   return (

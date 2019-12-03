@@ -1,11 +1,10 @@
 //GLOBAL HEADER => token private routes access
 import axios from 'axios';
 
-const setAuthToken = token => {
+export const setAuthToken = token => {
   if(token){
     axios.defaults.headers.common['x-auth-token'] = token
   }else{
     delete axios.defaults.headers.common['x-auth-token'];
   }
 }
-export default setAuthToken;

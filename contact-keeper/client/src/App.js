@@ -8,7 +8,7 @@ import About from './components/pages/About';
 import Register from './components/Auth/Register';
 import Login from './components/Auth/Login';
 import Alerts from './components/layouts/Alerts';
-import setAuthToken from './utils/setAuthToken';
+import { setAuthToken } from './utils/setAuthToken';
 //Styles
 import './App.css';
 //redux

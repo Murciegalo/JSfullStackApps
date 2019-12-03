@@ -9,12 +9,11 @@ import {
   AUTH_ERROR
 } from './types';
 import axios from 'axios';
-import setAuthToken from '../utils/setAuthToken';
+import { setAuthToken } from '../utils/setAuthToken';
 
 
 // LOAD USER
-export const loadUser = (response) => async dispatch => {
-  console.log('run!' , response)
+export const loadUser = () => async dispatch => {
   //load token into headers req
   if(localStorage.token){
     // 1. put it in the header => GET req
@@ -22,17 +21,16 @@ export const loadUser = (response) => async dispatch => {
   }
   try {
     // 2.
-    // const res = await axios.get('/api/auth');
+    const res = await axios.get('http://localhost:5000/api/auth');
     dispatch({
       type: USER_LOADED,
-      payload: response
+      payload: res.data
     }); 
   } 
   catch (error) {
     dispatch({ type: AUTH_ERROR })
   }
 }
-
 
 export const register = ( formData ) => async dispatch => {
   try {
