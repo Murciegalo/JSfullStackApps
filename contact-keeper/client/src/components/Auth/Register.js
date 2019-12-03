@@ -1,12 +1,10 @@
-import React , { useState } from 'react';
-import uuid from 'uuid';
-import axios from 'axios';
+import React , { useState , useEffect } from 'react';
 //Redux
-import { useDispatch , useSelector } from "react-redux";
-import { SET_ALERT , REMOVE_ALERT, REGISTER_SUCCESS, REGISTER_FAIL } from '../../actions/types';
+import { connect } from 'react-redux';
+import { setAlert } from '../../actions/contactsActions';
+import { register , clearErrors } from '../../actions/dbActions';
 
-
-const Register = () => {
+const Register = ({db , setAlert , register , clearErrors , history }) => {
   const [ user , setUser ] = useState({
     name: '' ,
     email: '' ,
@@ -14,9 +12,20 @@ const Register = () => {
     password2: ''
   });
   const { name , email , password , password2 } = user;
+  const { error , isAuthenticated } = db;
+  
+  useEffect(() => {
+    if(isAuthenticated){
+      history.push('/');
+    }  
 
-  const dispatch = useDispatch();
-  const msg = useSelector(state => state.db.error);
+    if(error === 'User already exists'){
+      setAlert( error );
+      clearErrors();
+    } 
+    //eslint-disable-next-line
+  }, [error , isAuthenticated , history])
+
   //On Change
   const handleChange = e => {
     setUser({
@@ -27,43 +36,13 @@ const Register = () => {
   //ON Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let id;
     //UI
     if( password !== password2 ){
-      id = uuid.v4();
-      let msg = 'Passwords don\'t match';
-      dispatch({
-        type: SET_ALERT,
-        payload: { id , SET_ALERT , msg , tipo: 'danger'}
-      })
-      setTimeout( () => dispatch({ type: REMOVE_ALERT , payload: id}), 3000);
+      setAlert(error);
     }
     else{
-      //BackEND
-      try {
-        const config = {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }
-        const res = await axios.post( 'http://localhost:5000/api/users' , {name , email , password} , config )
-        dispatch({
-          type: REGISTER_SUCCESS ,
-          payload: res.data
-        });
-      } 
-      catch (error) {
-        dispatch({
-          type: REGISTER_FAIL ,
-          payload: error.response.data.msg
-        })
-        id = uuid.v4();
-        dispatch({
-          type: SET_ALERT,
-          payload: { id , SET_ALERT , msg , tipo: 'danger'}
-        })
-        setTimeout( () => dispatch({ type: REMOVE_ALERT , payload: id}), 2500);
-      }
+    //BackEND
+      register({ name , email , password });
     }
   }
   return (
@@ -120,4 +99,14 @@ const Register = () => {
   )
 }
 
-export default Register;
+const mapStateToProps = state => {
+  return {
+    db: state.db
+  }
+}
+console.log(mapStateToProps);
+
+export default connect(
+  mapStateToProps,
+  { register , setAlert , clearErrors }
+)(Register);

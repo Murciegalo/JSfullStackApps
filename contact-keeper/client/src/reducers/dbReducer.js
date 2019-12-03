@@ -19,6 +19,13 @@ const initState = {
 
 export default ( state=initState , action) => {
   switch (action.type) {
+    case USER_LOADED:
+      return {
+        ...state , 
+        isAuthenticated: true ,
+        loading: false ,
+        user: action.payload
+      }
     case REGISTER_SUCCESS:
       localStorage.setItem('token' , action.payload.token)
       return {
@@ -28,6 +35,7 @@ export default ( state=initState , action) => {
         loading: false 
       }
     case REGISTER_FAIL:
+    case AUTH_ERROR:
       localStorage.removeItem('token');
       return {
         ...state,
@@ -37,13 +45,10 @@ export default ( state=initState , action) => {
         user: null ,
         error: action.payload
       }
-    case USER_LOADED:
+    case CLEAR_ERRORS:
       return {
-
-      }
-    case AUTH_ERROR:
-      return {
-
+        ...state ,
+        error : null 
       }
     case LOGIN_SUCCESS:
       return {
@@ -54,10 +59,6 @@ export default ( state=initState , action) => {
 
       }
     case LOGOUT:
-      return {
-
-      }
-    case CLEAR_ERRORS:
       return {
 
       }

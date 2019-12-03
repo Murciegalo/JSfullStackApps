@@ -8,14 +8,17 @@ import About from './components/pages/About';
 import Register from './components/Auth/Register';
 import Login from './components/Auth/Login';
 import Alerts from './components/layouts/Alerts';
-
+import setAuthToken from './utils/setAuthToken';
 //Styles
 import './App.css';
 //redux
 import store from './store';
 import { Provider } from 'react-redux';
 
-
+if(localStorage.token){
+  // 1. put it in the header => GET req
+  setAuthToken(localStorage.token)
+}
 
 const App = () => {
   return (
@@ -27,7 +30,7 @@ const App = () => {
           <Switch>
             <Route exact path="/" render={ () => <Home /> } />
             <Route exact path="/about" render={ () => <About /> } />
-            <Route exact path="/register" render={() => <Register /> }/>
+            <Route exact path="/register" render={(routeParams) => <Register {...routeParams} /> }/>
             <Route exact path="/login" render={() => <Login /> }/>
             <Route component={Login}/>  
           </Switch>
