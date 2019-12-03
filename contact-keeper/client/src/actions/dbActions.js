@@ -8,28 +8,51 @@ import {
   CLEAR_ERRORS,
   AUTH_ERROR
 } from './types';
+import axios from 'axios';
+import setAuthToken from '../utils/setAuthToken';
 
 
 // LOAD USER
-export const userLoad = (user) => {
-  return {
-    type: USER_LOADED ,
-    action: user
+export const loadUser = (response) => async dispatch => {
+  console.log('run!' , response)
+  //load token into headers req
+  if(localStorage.token){
+    // 1. put it in the header => GET req
+    setAuthToken(localStorage.token)
+  }
+  try {
+    // 2.
+    // const res = await axios.get('/api/auth');
+    dispatch({
+      type: USER_LOADED,
+      payload: response
+    }); 
+  } 
+  catch (error) {
+    dispatch({ type: AUTH_ERROR })
   }
 }
 
-// REGISTER USER
-export const registSuccess = (tokenData) => {
-  return {
-    type: REGISTER_SUCCESS ,
-    action: tokenData
-  }
-}
 
-export const registFail = (error) => {
-  return {
-    type: REGISTER_FAIL ,
-    action: error
+export const register = ( formData ) => async dispatch => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+    const res = await axios.post( 'http://localhost:5000/api/users' , formData , config )
+    dispatch({
+      type: REGISTER_SUCCESS ,
+      payload: res.data ,
+    }) 
+  } 
+  catch (error) {
+    console.log(error)
+    dispatch({
+      type: REGISTER_FAIL ,
+      payload: error.response.data.msg
+    })
   }
 }
 
@@ -66,8 +89,8 @@ export const logUserOut = () => {
 
 // CLEAR ERRORS 
 
-export const clearErrors = () => {
-  return {
+export const clearErrors = () => async dispatch => {
+  dispatch({
     type: CLEAR_ERRORS
-  }
+  });
 }
