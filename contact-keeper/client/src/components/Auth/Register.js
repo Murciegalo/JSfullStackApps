@@ -38,7 +38,8 @@ const Register = ({db , setAlert , register  , clearErrors , history }) => {
     e.preventDefault();
     //UI
     if( password !== password2 ){
-      setAlert(error);
+      setAlert('Sorry , passwords don\'t match');
+      clearErrors();
     }
     else{
     //To register user
