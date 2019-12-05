@@ -14,6 +14,8 @@ import './App.css';
 //redux
 import store from './store';
 import { Provider } from 'react-redux';
+//Private Routing
+import PrivateRoute from './components/PrivateRoute';
 
 if(localStorage.token){
   // 1. put it in the header => GET req
@@ -28,7 +30,7 @@ const App = () => {
         <div className="container">
           <Alerts />
           <Switch>
-            <Route exact path="/" render={ () => <Home /> } />
+            <PrivateRoute exact path="/" component={Home} />
             <Route exact path="/about" render={ () => <About /> } />
             <Route exact path="/register" render={(routeParams) => <Register {...routeParams} /> }/>
             <Route exact path="/login" render={(routeParams) => <Login {...routeParams} /> }/>

@@ -9,6 +9,7 @@ import { logOut } from '../../actions/dbActions';
 const Navbar = ({ title , icon , isAuthenticated , user , logOut }) => {
   const handleClick = () => {
     logOut();
+    // clearErrors();
   }
   return (
     <nav className="navbar bg-primary">

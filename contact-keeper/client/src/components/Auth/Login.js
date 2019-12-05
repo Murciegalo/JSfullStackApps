@@ -8,17 +8,12 @@ import { loadUser , login } from '../../actions/dbActions';
 
 const Login = ({ history , isAuthenticated , error , clearErrors , setAlert , login , loadUser }) => {
   useEffect(() => {
-    isAuthenticated && history.push('/')
-    if(error === 'Invalid Credentials' || error === 'Invalid password'){
+    if(isAuthenticated) {
+      history.push('/')
+    }  
+    if(error === 'Invalid Credentials'){
       setAlert(error);
       clearErrors();
-      history.push('/login');
-      setTimeout(() => {
-        setUser({
-          email: '' ,
-          password: ''
-        })
-      }, 500); 
     }
   }, //eslint-disable-next-line
   [ isAuthenticated , history , error ]);
@@ -69,7 +64,7 @@ const Login = ({ history , isAuthenticated , error , clearErrors , setAlert , lo
 Login.propTypes = {
   history: PropTypes.object.isRequired,
   isAuthenticated: PropTypes.bool,
-  error: PropTypes.element,
+  error: PropTypes.string,
   clearErrors: PropTypes.func.isRequired,
   setAlert: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
