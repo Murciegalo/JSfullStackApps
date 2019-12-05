@@ -2,11 +2,11 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   USER_LOADED,
+  AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
   CLEAR_ERRORS,
-  AUTH_ERROR
 } from './types';
 import axios from 'axios';
 import { setAuthToken } from '../utils/setAuthToken';
@@ -14,12 +14,15 @@ import { setAuthToken } from '../utils/setAuthToken';
 
 // LOAD USER
 export const loadUser = () => async dispatch => {
+  console.log('run');
+  console.log(localStorage.token);
   //load token into headers req
   if(localStorage.token){
     // 1. put it in the header => GET req
     setAuthToken(localStorage.token)
   }
   try {
+    console.log('runOI');
     // 2.
     const res = await axios.get('http://localhost:5000/api/auth');
     dispatch({
@@ -32,7 +35,7 @@ export const loadUser = () => async dispatch => {
   }
 }
 
-export const register = ( formData ) => async dispatch => {
+export const register = formData => async dispatch => {
   try {
     const config = {
       headers: {
@@ -46,7 +49,6 @@ export const register = ( formData ) => async dispatch => {
     }) 
   } 
   catch (error) {
-    console.log(error)
     dispatch({
       type: REGISTER_FAIL ,
       payload: error.response.data.msg
@@ -54,34 +56,27 @@ export const register = ( formData ) => async dispatch => {
   }
 }
 
-// LOGIN USER
-export const authUser = (error) => {
-  return {
-    type: AUTH_ERROR ,
-    action: error
-  }
-}
+// LOGIN
 
-export const loginSuccess = (token) => {
-  return {
-    type: LOGIN_SUCCESS ,
-    action: token
-  }
-}
-
-export const loginFail = (error) => {
-  return {
-    type: LOGIN_FAIL ,
-    action: error
-  }
-}
-
-
-// LOGOUT
-
-export const logUserOut = () => {
-  return {
-    type: LOGOUT 
+export const login = formData => async dispatch => {
+  console.log(formData)
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+    const res = await axios.post( 'http://localhost:5000/api/auth' , formData , config );
+    dispatch({
+      type: LOGIN_SUCCESS ,
+      payload: res.data ,
+    }) 
+  } 
+  catch (error) {
+    dispatch({
+      type: LOGIN_FAIL ,
+      payload: error.response.data.msg
+    })
   }
 }
 

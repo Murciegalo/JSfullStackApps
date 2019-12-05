@@ -16,7 +16,7 @@ router.get( '/' , auth , async ( req , res ) => {
   try {             
     // <==
     const user = await User.findById(req.user.id).select('-password');
-    res.json({user});
+    res.json(user);
   } 
   catch (error) {
     console.log(error.message);
@@ -27,7 +27,7 @@ router.get( '/' , auth , async ( req , res ) => {
 
 
 
-// 1.  @route   Auth User & get token
+// 1.  @route   Auth User & Login
 //     public access
 router.post( 
   '/' , 

@@ -1,11 +1,19 @@
-import React from 'react';
+import React , { useEffect } from 'react';
 import ContactsList from '../layouts/ContactsList.js';
 import ContactForm  from "../layouts/ContactForm";
 import Filter from '../layouts/Filter';
 //redux
 import { connect } from 'react-redux';
+import { loadUser } from '../../actions/dbActions';
 
-const Home = ({ contacts }) => {
+
+const Home = ({ contacts , loadUser }) => {
+  useEffect(() => {
+    loadUser();
+  },
+  // eslint-disable-next-line 
+  []);
+  
   return (
     <div className="grid-2">
         <ContactForm />
@@ -27,5 +35,6 @@ const mapStateToProps = state => {
   }
 }
 export default connect(
-  mapStateToProps
+  mapStateToProps ,
+  { loadUser }
 )(Home);

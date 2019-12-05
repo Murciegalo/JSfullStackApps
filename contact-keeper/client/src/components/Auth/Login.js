@@ -1,46 +1,21 @@
 import React , { useState } from 'react';
-import uuid from 'uuid';
-//Redux
-import { useDispatch } from "react-redux";
-import { SET_ALERT , REMOVE_ALERT } from '../../actions/types';
+import PropTypes from 'prop-types';
 
-const Login = props => {
+const Login = (props) => {
+  console.log(props)
   const [ user , setUser ] = useState({
     email: '' ,
-    password: '' ,
-    password2: ''
+    password: ''
   });
   const { email , password } = user;
-
-  const dispatch = useDispatch();
-
   //OnChange
   const handleChange = e => {
-    setUser({
-      ...user ,
-      [e.target.name] : e.target.value
-    });
+    setUser({ [e.target.name] : e.target.value });
   }
   //On Submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    let msg;
-    let id = uuid.v4();
-    if( email === '' || password === ''){
-      msg = 'Please complete all fields';
-      dispatch({
-        type: SET_ALERT,
-        payload: { id , SET_ALERT , msg , tipo: 'danger'}
-      });
-    }
-    // else if( password !== password2 ){
-    //   msg = 'Passwords don\'t match';
-    //   dispatch({
-    //     type: SET_ALERT,
-    //     payload: { id , SET_ALERT , msg , tipo: 'danger'}
-    //   })
-    // }
-    setTimeout( () => dispatch({ type: REMOVE_ALERT , payload: id}), 3000);
+    console.log('submit');
   }
 
   return (
@@ -49,11 +24,23 @@ const Login = props => {
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="email">Email Address</label>
-          <input type="email" name="email" value={email} onChange={handleChange}/>
+          <input 
+            type="email" 
+            name="email" 
+            value={email} 
+            onChange={handleChange} 
+            required
+          />
         </div>
         <div className="form-group">
           <label htmlFor="password">Password</label>
-          <input type="password" name="password" value={password} onChange={handleChange}/>
+          <input 
+            type="password" 
+            name="password" 
+            value={password} 
+            onChange={handleChange} 
+            required
+          />
         </div>
         <input type="submit" value="Login" className="btn btn-success btn-block"/>
       </form>
@@ -62,7 +49,6 @@ const Login = props => {
 }
 
 Login.propTypes = {
-
 }
 
 export default Login;

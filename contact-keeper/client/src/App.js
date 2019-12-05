@@ -31,7 +31,7 @@ const App = () => {
             <Route exact path="/" render={ () => <Home /> } />
             <Route exact path="/about" render={ () => <About /> } />
             <Route exact path="/register" render={(routeParams) => <Register {...routeParams} /> }/>
-            <Route exact path="/login" render={() => <Login /> }/>
+            <Route exact path="/login" render={(routeParams) => <Login {...routeParams} /> }/>
             <Route component={Login}/>  
           </Switch>
         </div>

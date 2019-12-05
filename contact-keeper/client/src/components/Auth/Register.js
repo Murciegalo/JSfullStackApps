@@ -1,10 +1,11 @@
 import React , { useState , useEffect } from 'react';
+import PropTypes from 'prop-types';
 //Redux
 import { connect } from 'react-redux';
 import { setAlert } from '../../actions/contactsActions';
-import { register , clearErrors  } from '../../actions/dbActions';
+import { loadUser , register , clearErrors  } from '../../actions/dbActions';
 
-const Register = ({db , setAlert , register  , clearErrors , history }) => {
+const Register = ({db , setAlert , register  , loadUser , clearErrors , history }) => {
   const [ user , setUser ] = useState({
     name: '' ,
     email: '' ,
@@ -42,11 +43,8 @@ const Register = ({db , setAlert , register  , clearErrors , history }) => {
       clearErrors();
     }
     else{
-    //To register user
-      register({ name , email , password });
-    
-    //To check token and login/not the user
-    
+    //To register user ==> check token and login/not the user
+      register({ name , email , password }).then( loadUser )
     }
   }
   return (
@@ -103,14 +101,18 @@ const Register = ({db , setAlert , register  , clearErrors , history }) => {
   )
 }
 
+Register.propTypes = {
+  loadUser: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired,
+  setAlert: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.isRequired,
+}
 const mapStateToProps = state => {
   return {
     db: state.db
   }
 }
-console.log(mapStateToProps);
-
 export default connect(
   mapStateToProps,
-  { register , setAlert , clearErrors }
+  { loadUser , register , setAlert , clearErrors }
 )(Register);
