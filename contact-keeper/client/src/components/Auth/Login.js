@@ -1,8 +1,28 @@
-import React , { useState } from 'react';
+import React , { useState , useEffect } from 'react';
 import PropTypes from 'prop-types';
+//Redux
+import { setAlert } from '../../actions/contactsActions';
+import { clearErrors } from '../../actions/dbActions';
+import { connect } from 'react-redux';
+import { loadUser , login } from '../../actions/dbActions';
 
-const Login = (props) => {
-  console.log(props)
+const Login = ({ history , isAuthenticated , error , clearErrors , setAlert , login , loadUser }) => {
+  useEffect(() => {
+    isAuthenticated && history.push('/')
+    if(error === 'Invalid Credentials' || error === 'Invalid password'){
+      setAlert(error);
+      clearErrors();
+      history.push('/login');
+      setTimeout(() => {
+        setUser({
+          email: '' ,
+          password: ''
+        })
+      }, 500); 
+    }
+  }, //eslint-disable-next-line
+  [ isAuthenticated , history , error ]);
+
   const [ user , setUser ] = useState({
     email: '' ,
     password: ''
@@ -10,12 +30,12 @@ const Login = (props) => {
   const { email , password } = user;
   //OnChange
   const handleChange = e => {
-    setUser({ [e.target.name] : e.target.value });
+    setUser({ ...user , [e.target.name] : e.target.value });
   }
   //On Submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('submit');
+    login( {email , password} ).then( loadUser() );
   }
 
   return (
@@ -27,7 +47,6 @@ const Login = (props) => {
           <input 
             type="email" 
             name="email" 
-            value={email} 
             onChange={handleChange} 
             required
           />
@@ -37,7 +56,6 @@ const Login = (props) => {
           <input 
             type="password" 
             name="password" 
-            value={password} 
             onChange={handleChange} 
             required
           />
@@ -49,6 +67,17 @@ const Login = (props) => {
 }
 
 Login.propTypes = {
+  history: PropTypes.object.isRequired,
+  isAuthenticated: PropTypes.bool,
+  error: PropTypes.element,
+  clearErrors: PropTypes.func.isRequired,
+  setAlert: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired,
 }
-
-export default Login;
+const mapStateToProps = state => {
+  return state.db
+}
+export default connect(
+  mapStateToProps ,
+  { setAlert , clearErrors , login , loadUser }
+)(Login);

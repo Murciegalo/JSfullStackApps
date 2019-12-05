@@ -9,10 +9,12 @@ import { loadUser } from '../../actions/dbActions';
 
 const Home = ({ contacts , loadUser }) => {
   useEffect(() => {
-    loadUser();
+    if(localStorage.token){
+      loadUser();
+    }
   },
   // eslint-disable-next-line 
-  []);
+  [localStorage.token]);
   
   return (
     <div className="grid-2">

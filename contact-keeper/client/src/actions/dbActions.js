@@ -5,8 +5,8 @@ import {
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
-  LOGOUT,
   CLEAR_ERRORS,
+  LOGOUT
 } from './types';
 import axios from 'axios';
 import { setAuthToken } from '../utils/setAuthToken';
@@ -31,7 +31,10 @@ export const loadUser = () => async dispatch => {
     }); 
   } 
   catch (error) {
-    dispatch({ type: AUTH_ERROR })
+    dispatch({ 
+      type: AUTH_ERROR ,
+      payload: error.response.data.msg
+    })
   }
 }
 
@@ -80,6 +83,13 @@ export const login = formData => async dispatch => {
   }
 }
 
+// LOG OUT USER
+
+export const logOut = () => async dispatch => {
+  dispatch({
+    type: LOGOUT
+  });
+}
 // CLEAR ERRORS 
 
 export const clearErrors = () => async dispatch => {
