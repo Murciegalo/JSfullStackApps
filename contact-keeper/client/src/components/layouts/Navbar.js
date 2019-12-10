@@ -5,11 +5,12 @@ import { FaIdCard  , FaSignOutAlt } from 'react-icons/fa';
 //redux
 import { connect } from 'react-redux';
 import { logOut } from '../../actions/dbActions';
+import { clearContacts } from '../../actions/contactsActions';
 
-const Navbar = ({ title , icon , isAuthenticated , user , logOut }) => {
+const Navbar = ({ title , icon , isAuthenticated , user , logOut , clearContacts }) => {
   const handleClick = () => {
     logOut();
-    // clearErrors();
+    clearContacts();
   }
   return (
     <nav className="navbar bg-primary">
@@ -55,5 +56,5 @@ const mapStateToProps = state => {
 }
 export default connect(
   mapStateToProps ,
-  { logOut }
+  { logOut , clearContacts }
 )(Navbar);

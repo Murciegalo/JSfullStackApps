@@ -1,4 +1,5 @@
 import {
+  GET_CONTACTS,
   ADD_CONTACT ,
   DELETE_CONTACT,
   SET_CONTACT,
@@ -7,31 +8,40 @@ import {
   FILTER_CONTACTS,
   CLEAR_FILTER,
   SET_ALERT ,
-  REMOVE_ALERT
+  REMOVE_ALERT ,
+  CONTACT_ERROR,
+  CLEAR_CONTACTS
 } from '../actions/types';
 
 const initState = {
-  contactsList: [
-    { id: 1 , name: 'Stuart' , surname: 'CaraOso' },
-    { id: 2 , name: 'Tomate' , surname: 'CaraOso' },
-    { id: 3 , name: 'Caliente' , surname: 'CaraOso' }
-  ] ,
+  contactsList: [] ,
   current: null ,
   filtered: null ,
-  alerts: []
+  alerts: [] ,
+  error: null
 }
 
 export default ( state=initState , action) => {
   switch (action.type) {
+    case GET_CONTACTS:
+      return {
+        ...state ,
+        contactsList: action.payload 
+      }
     case ADD_CONTACT:
       return {
         ...state ,
-        contactsList: [ ...state.contactsList , action.payload ]
+        contactsList: [ action.payload , ...state.contactsList ] 
+      }
+    case CONTACT_ERROR:
+      return {
+        ...state ,
+        error: action.payload
       }
     case DELETE_CONTACT:
       return {
         ...state ,
-        contactsList: state.contactsList.filter(el => el.id !== action.payload)
+        contactsList: state.contactsList.filter(el => el._id !== action.payload)
       }
     case SET_CONTACT:
       return {
@@ -47,7 +57,7 @@ export default ( state=initState , action) => {
       return {
         ...state ,
         contactsList: state.contactsList.map(el => {
-          if(el.id === action.payload.id){
+          if(el._id === action.payload._id){
             return action.payload
           }else{
             return el;
@@ -66,6 +76,14 @@ export default ( state=initState , action) => {
       return {
         ...state,
         filtered: null
+      }
+    case CLEAR_CONTACTS:
+      return {
+        ...state,
+        contactsList: [],
+        filtered: null ,
+        error: null ,
+        current: null
       }
     case SET_ALERT:
       return {

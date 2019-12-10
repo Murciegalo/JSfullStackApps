@@ -1,15 +1,22 @@
-import React from 'react';
+import React , { useEffect } from 'react';
 import PropTypes from 'prop-types';
 //redux
 import { connect } from 'react-redux';
+import { getContacts } from '../../actions/contactsActions';
+
 //comp.
 import  ContactItem  from './ContactItem';
 //transtit.
 import { CSSTransition , TransitionGroup } from 'react-transition-group';
 
-const ContactsList = ({ list: { contactsList , filtered }}) => {
+const ContactsList = ({ list: { contactsList , filtered  } , db: { loading } , getContacts }) => {
   
-  if(contactsList.length === 0){
+  useEffect( () => {
+    getContacts();
+  }, //eslint-disable-next-line
+  []);
+
+  if(contactsList.length === 0 && loading !== false ){
     return <h3 style={{textAlign: 'center'}}>Please add a contact</h3>
   }
   return (
@@ -18,12 +25,12 @@ const ContactsList = ({ list: { contactsList , filtered }}) => {
     {
     filtered !== null ?
       filtered.map(el => (
-        <CSSTransition key={el.id} className="item" timeout={600}> 
+        <CSSTransition key={el._id} className="item" timeout={600}> 
           <ContactItem data={el}/> 
         </CSSTransition> ))
       : 
       contactsList.map( el => (
-        <CSSTransition key={el.id} className="item" timeout={600}> 
+        <CSSTransition key={el._id} className="item" timeout={600}> 
           <ContactItem data={el}/> 
         </CSSTransition> ))
     }
@@ -36,11 +43,14 @@ ContactsList.propTypes = {
   list: PropTypes.object.isRequired,
 }
 
-const mapStateToProps = state => ({
-  list: state.contacts
-})
+const mapStateToProps = state => {
+  return {
+    list: state.contacts ,
+    db: state.db
+  }
+}
 
 export default connect(
   mapStateToProps,
-  null
+  { getContacts }
 )(ContactsList);
