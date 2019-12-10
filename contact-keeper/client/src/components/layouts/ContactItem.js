@@ -2,15 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 //redux
 import { connect } from 'react-redux';
-import { deleteContact , setCurrent , clearCurrent} from '../../actions/contactsActions';
+import { deleteContact , setCurrent , clearCurrent, clearContacts } from '../../actions/contactsActions';
 
 
 const ContactItem = ({ data , deleteContact , setCurrent , clearCurrent}) => {
-  const { id , name , email , phone , type } = data;
+  const { _id , name , email , phone , type } = data;
 
   const onDelete = () => {
-    deleteContact(id);
-    clearCurrent()
+    deleteContact(_id);
+    setTimeout(
+      () => {
+      clearCurrent();
+    }, 
+    1000)
   }
 
   return (

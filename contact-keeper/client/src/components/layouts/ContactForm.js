@@ -8,7 +8,7 @@ const ContactForm = ({addContact , current , clearCurrent , updateContact}) => {
   useEffect(() => {
     if(current !== null){
       setContact({
-        id: current.id,
+        _id: current._id,
         name: current.name ,
         email: current.email ,
         phone: current.phone ,
@@ -45,7 +45,9 @@ const ContactForm = ({addContact , current , clearCurrent , updateContact}) => {
     if(current === null){
       addContact(contact);
     }
-    else{
+    else
+    {
+      console.log(contact);
       updateContact(contact);
       clearCurrent();
     }

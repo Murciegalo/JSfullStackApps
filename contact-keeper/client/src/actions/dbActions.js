@@ -14,8 +14,6 @@ import { setAuthToken } from '../utils/setAuthToken';
 
 // LOAD USER
 export const loadUser = () => async dispatch => {
-  console.log('run');
-  console.log(localStorage.token);
   //load token into headers req
   if(localStorage.token){
     // 1. put it in the header => GET req
